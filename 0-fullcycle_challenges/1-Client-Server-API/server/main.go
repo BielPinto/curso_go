@@ -15,17 +15,12 @@ import (
 )
 
 /*
-- Server.go must consume the API containing the Dollar and Real exchange rate at the address: nd then it should return in JSON format  - > done
-
-- endpoint /quotation and port 8080 -> done
-
-- use context with call to
-api quote with 200ms timeout
-and the inset in the database with a timeout of 10 ms.  -> done
-
-- return only the bind field in the api  -> done
-- record each quote received in the SQLite database driver _ "github.com/mattn/go-sqlite3"
-- 3 context return the log error if the execution time is insufficient  -> doing
+- Server.go must consume the API containing the Dollar and Real exchange rate at the address: nd then it should return in JSON format  --> done
+- endpoint /cotacao and port 8080 --> done
+- record each quote received in the SQLite database driver _ "github.com/mattn/go-sqlite3" - > doing
+- use context with call to api quote with 200ms timeout and the inset in the database with a timeout of 10 ms.  --> done
+- return only the bind field in the api --> done
+- 3 context return the log error if the execution time is insufficient  --> done
 */
 
 type Quotation struct {
@@ -63,15 +58,15 @@ func HandlerQuotation(db *sql.DB) http.HandlerFunc {
 		defer cancel()
 		quotation, err := getQuotation(ctx, "USD-BRL")
 		if err != nil {
-			fmt.Println("err", err)
+			fmt.Printf("error when getting quote error: %s \n", err)
 			http.Error(w, "Unable to obtain Quotation", http.StatusInternalServerError)
 			return
 		}
 		err = inserProduct(db, quotation)
 		// err = saveQuotationToFile(quotation)
 		if err != nil {
-			fmt.Println("err", err)
-			http.Error(w, "Unable to sbe quote to file", http.StatusInternalServerError)
+			fmt.Printf("Unable to insert quote data into the database error: %s \n", err)
+			http.Error(w, "Unable to insert quote data into the database", http.StatusInternalServerError)
 			return
 		}
 
@@ -86,6 +81,7 @@ func HandlerQuotation(db *sql.DB) http.HandlerFunc {
 		// err = json.NewEncoder(w).Encode(quotation)
 
 		if err != nil {
+			fmt.Printf("error when converting object to json error: %s \n", err)
 			http.Error(w, "Erro ao codificar a resposta JSON", http.StatusInternalServerError)
 			return
 		}
@@ -110,13 +106,11 @@ func getQuotation(ctx context.Context, cod string) (Quotation, error) {
 	defer resp.Body.Close()
 	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println("outil.ReadAll( error", err)
 		return Quotation{}, err
 	}
 	var quotation Quotation
 	err = json.Unmarshal(body, &quotation)
 	if err != nil {
-		fmt.Println("Unmarshal(", err)
 		return Quotation{}, err
 	}
 	return quotation, nil
@@ -137,13 +131,19 @@ func saveQuotationToFile(quotation Quotation) error {
 }
 
 func inserProduct(db *sql.DB, quotation Quotation) error {
-	stmt, err := db.Prepare("insert into products(id, Code, Codein, Name, High, Low, VarBid, PctChange, Bid, Ask, CreateDate) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Millisecond)
+	defer cancel()
+	stmt, err := db.PrepareContext(ctx, "insert into quotation(id, Code, Codein, Name, High, Low, VarBid, PctChange, Bid, Ask, CreateDate) values(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)")
 
 	if err != nil {
 		return err
 	}
+
 	defer stmt.Close()
-	_, err = stmt.Exec(uuid.NewString(), quotation.USDBRL.Code, quotation.USDBRL.Codein, quotation.USDBRL.Name, quotation.USDBRL.High, quotation.USDBRL.Low, quotation.USDBRL.VarBid, quotation.USDBRL.PctChange, quotation.USDBRL.Bid, quotation.USDBRL.Ask, quotation.USDBRL.CreateDate)
+
+	_, err = stmt.ExecContext(ctx, uuid.NewString(), quotation.USDBRL.Code, quotation.USDBRL.Codein, quotation.USDBRL.Name, quotation.USDBRL.High, quotation.USDBRL.Low, quotation.USDBRL.VarBid, quotation.USDBRL.PctChange, quotation.USDBRL.Bid, quotation.USDBRL.Ask, quotation.USDBRL.CreateDate)
+	// fmt.Println("result", result)
 	if err != nil {
 		return err
 	}
