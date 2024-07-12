@@ -1,2 +1,0 @@
-Code: USD, Codein: BRL, Name: Dólar Americano/Real Brasileiro, High: 5.4179, Low: 5.4141, VarBid: 0.0017, PctChange: 0.03, Bid: 5.4156, Ask: 5.4166, Timestamp: 1720650604, CreateDate: 2024-07-10 19:30:04
-Code: USD, Codein: BRL, Name: Dólar Americano/Real Brasileiro, High: 5.4179, Low: 5.4141, VarBid: 0.0017, PctChange: 0.03, Bid: 5.4156, Ask: 5.4166, Timestamp: 1720650604, CreateDate: 2024-07-10 19:30:04
