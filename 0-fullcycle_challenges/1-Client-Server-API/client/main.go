@@ -43,23 +43,35 @@ type TemplateData struct {
 }
 
 func main() {
-
+	fielisexists()
 	http.HandleFunc("/", humeHanlder)
 	http.HandleFunc("/cotacao", quotationHanlder)
-	http.ListenAndServe(":8282", nil)
+	fmt.Printf("Client started  Port:%d \n", 8282)
+	log.Fatal(http.ListenAndServe(":8282", nil))
 
 }
+
+func fielisexists() {
+	f, erre := os.Create("cotacao.txt")
+	if erre != nil {
+		panic(erre)
+	}
+	f.Close()
+}
+
 func quotationHanlder(w http.ResponseWriter, r *http.Request) {
 	ctx, cancel := context.WithTimeout(context.Background(), 300*time.Millisecond)
 	defer cancel()
 	quotation, err := getQuotation(ctx)
 	if err != nil {
-		fmt.Printf("error when getting quote error: %s \n", err)
+		fmt.Printf("error when getting quote error: %s \n", err.Error())
+		http.Error(w, err.Error(), http.StatusInternalServerError)
 		return
 	}
 	err = saveQuotationToFile(quotation)
 	if err != nil {
 		fmt.Printf("Unable to insert quote data into the file error: %s \n", err)
+		http.Error(w, "Unable to insert quote data into the file error", http.StatusInternalServerError)
 		return
 	}
 	jsonBytes, err := json.Marshal(quotation)
@@ -70,7 +82,6 @@ func quotationHanlder(w http.ResponseWriter, r *http.Request) {
 
 	w.Write(jsonBytes)
 	// humeHanlder(w, r)
-
 }
 
 func humeHanlder(w http.ResponseWriter, r *http.Request) {
@@ -79,6 +90,9 @@ func humeHanlder(w http.ResponseWriter, r *http.Request) {
 		log.Fatalf("Failed to read dollar value: %v", err)
 	}
 
+	if len(cotacaoFile) == 0 {
+		fmt.Printf("No dollar in file")
+	}
 	t := template.Must(template.New("template.html").ParseFiles("template.html"))
 	data := TemplateData{
 		DollarValues: cotacaoFile,
@@ -87,6 +101,34 @@ func humeHanlder(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		panic(err)
 	}
+}
+
+func readDollarValues(filename string) ([]string, error) {
+	file, err := os.Open(filename)
+	if err != nil {
+		fmt.Printf("file error: %s \n", err.Error())
+		return nil, err
+	}
+	defer file.Close()
+
+	var dollarValues []string
+	scanner := bufio.NewScanner(file)
+	for scanner.Scan() {
+		line := scanner.Text()
+		if strings.HasPrefix(line, "Dólar:") {
+			parts := strings.Split(line, ":")
+			if len(parts) == 2 {
+				dollarValues = append(dollarValues, strings.TrimSpace(parts[1]))
+			}
+		}
+	}
+
+	if err := scanner.Err(); err != nil {
+		fmt.Printf("scanner error: %s \n", err.Error())
+		return nil, err
+	}
+
+	return dollarValues, nil
 }
 
 func saveQuotationToFile(quotation Quotation) error {
@@ -119,11 +161,16 @@ func getQuotation(ctx context.Context) (Quotation, error) {
 
 	defer resp.Body.Close()
 	body, err := io.ReadAll(resp.Body)
-	println(resp.StatusCode)
-	println(string(body))
+
 	if err != nil {
 		return Quotation{}, err
 	}
+
+	if resp.StatusCode != http.StatusOK {
+
+		return Quotation{}, fmt.Errorf(string(body))
+	}
+
 	var quotation Quotation
 	err = json.Unmarshal(body, &quotation)
 	if err != nil {
@@ -131,34 +178,4 @@ func getQuotation(ctx context.Context) (Quotation, error) {
 	}
 
 	return quotation, nil
-}
-
-func readDollarValues(filename string) ([]string, error) {
-	file, err := os.Open(filename)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
-
-	var dollarValues []string
-	scanner := bufio.NewScanner(file)
-	for scanner.Scan() {
-		line := scanner.Text()
-		if strings.HasPrefix(line, "Dólar:") {
-			parts := strings.Split(line, ":")
-			if len(parts) == 2 {
-				dollarValues = append(dollarValues, strings.TrimSpace(parts[1]))
-			}
-		}
-	}
-
-	if err := scanner.Err(); err != nil {
-		return nil, err
-	}
-
-	if len(dollarValues) == 0 {
-		return nil, fmt.Errorf("no dollar values found")
-	}
-
-	return dollarValues, nil
 }

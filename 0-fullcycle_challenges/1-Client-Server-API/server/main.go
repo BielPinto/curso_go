@@ -5,9 +5,8 @@ import (
 	"database/sql"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
-	"os"
 	"time"
 
 	_ "github.com/go-sql-driver/mysql"
@@ -20,7 +19,7 @@ import (
 - record each quote received in the SQLite database driver _ "github.com/mattn/go-sqlite3" - > doing
 - use context with call to api quote with 200ms timeout and the inset in the database with a timeout of 10 ms.  --> done
 - return only the bind field in the api --> done
-- 3 context return the log error if the execution time is insufficient  --> done
+- 3 context return the log error if the execution time is insuficient  --> done
 */
 
 type Quotation struct {
@@ -58,12 +57,11 @@ func HandlerQuotation(db *sql.DB) http.HandlerFunc {
 		defer cancel()
 		quotation, err := getQuotation(ctx, "USD-BRL")
 		if err != nil {
-			fmt.Printf("error when getting quote error: %s \n", err)
+			fmt.Printf("Unable to obtain Quotation err: %s \n", err)
 			http.Error(w, "Unable to obtain Quotation", http.StatusInternalServerError)
 			return
 		}
 		err = inserProduct(db, quotation)
-		// err = saveQuotationToFile(quotation)
 		if err != nil {
 			fmt.Printf("Unable to insert quote data into the database error: %s \n", err)
 			http.Error(w, "Unable to insert quote data into the database", http.StatusInternalServerError)
@@ -104,7 +102,7 @@ func getQuotation(ctx context.Context, cod string) (Quotation, error) {
 	}
 
 	defer resp.Body.Close()
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return Quotation{}, err
 	}
@@ -114,20 +112,6 @@ func getQuotation(ctx context.Context, cod string) (Quotation, error) {
 		return Quotation{}, err
 	}
 	return quotation, nil
-}
-
-func saveQuotationToFile(quotation Quotation) error {
-	file, err := os.OpenFile("cotacao.txt", os.O_APPEND|os.O_CREATE|os.O_WRONLY, 0644)
-	if err != nil {
-		return err
-	}
-	defer file.Close()
-
-	data := fmt.Sprintf("Code: %s, Codein: %s, Name: %s, High: %s, Low: %s, VarBid: %s, PctChange: %s, Bid: %s, Ask: %s, Timestamp: %s, CreateDate: %s\n",
-		quotation.USDBRL.Code, quotation.USDBRL.Codein, quotation.USDBRL.Name, quotation.USDBRL.High, quotation.USDBRL.Low, quotation.USDBRL.VarBid, quotation.USDBRL.PctChange, quotation.USDBRL.Bid, quotation.USDBRL.Ask, quotation.USDBRL.Timestamp, quotation.USDBRL.CreateDate)
-
-	_, err = file.WriteString(data)
-	return err
 }
 
 func inserProduct(db *sql.DB, quotation Quotation) error {
@@ -143,7 +127,7 @@ func inserProduct(db *sql.DB, quotation Quotation) error {
 	defer stmt.Close()
 
 	_, err = stmt.ExecContext(ctx, uuid.NewString(), quotation.USDBRL.Code, quotation.USDBRL.Codein, quotation.USDBRL.Name, quotation.USDBRL.High, quotation.USDBRL.Low, quotation.USDBRL.VarBid, quotation.USDBRL.PctChange, quotation.USDBRL.Bid, quotation.USDBRL.Ask, quotation.USDBRL.CreateDate)
-	// fmt.Println("result", result)
+
 	if err != nil {
 		return err
 	}
