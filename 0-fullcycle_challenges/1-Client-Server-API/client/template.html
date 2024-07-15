@@ -9,19 +9,31 @@
 </head>
 
 <body>
-  <h1>Cotação!!</h1>
-
-  <table>
-    <thead>Dollar</thead>
-    <tbody>
-      {{range .DollarValues }}
-
-      <tr>
-        <td>{{ . }}</td>
-      </tr>
-      {{end }}
-    </tbody>
-  </table>
+  <h1>Lista de contações salvas no arquivo!!</h1>
+  <div>
+    <button onclick="location.reload()">Atualizar Página</button>
+    <a href="http://localhost:8282/cotacao" target="_blank">
+      <button>Ver Cotação Dollar</button>
+    </a>
+  </div>
+    {{if .DollarValues}}
+    <table>
+      <thead>
+        <tr>
+          <th>Dollar</th>
+        </tr>
+      </thead>
+      <tbody>
+        {{range .DollarValues }}
+        <tr>
+          <td>{{ . }}</td>
+        </tr>
+        {{end }}
+      </tbody>
+    </table>
+    {{else}}
+    <p>Nenhum valor de Dollar disponível.</p>
+    {{end}}
 </body>
 
 </html>
