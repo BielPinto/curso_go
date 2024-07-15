@@ -1,11 +1,21 @@
-## Initial start db and run  server.go :
 
-There is a script that you will create all the tables necessary to run server.go :
-```
-server/db_quotation# docker-compose up -d
-```
+
 ## Running the serve.go
 
 ```
 server# go run main.go 
 ```
+## db Sqlite3
+```
+To access the sqlite3 database follow the command
+server# sqlite3 ./data/database.db
+```
+List Records
+select * from quotation;
+
+```
+Exit sqlite3
+.exit
+---
+Table structure
+PRAGMA table_info(quotation);

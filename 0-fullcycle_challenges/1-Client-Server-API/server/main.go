@@ -6,11 +6,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io"
+	"log"
 	"net/http"
+	"os"
 	"time"
 
-	_ "github.com/go-sql-driver/mysql"
 	"github.com/google/uuid"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 /*
@@ -40,15 +42,45 @@ type Quotation struct {
 
 func main() {
 	// mux := http.NewServeMux()
-
-	db, err := sql.Open("mysql", "root:root@tcp(localhost:3306)/goexpert")
-	if err != nil {
-		panic(err)
-	}
+	db := bdExists()
 	defer db.Close()
-
 	http.HandleFunc("/cotacao", HandlerQuotation(db))
+
+	fmt.Println("Server Up port:8080")
 	http.ListenAndServe(":8080", nil)
+}
+
+func bdExists() (db *sql.DB) {
+	dbFile := os.Getenv("DB_FILE")
+	if dbFile == "" {
+		dbFile = "./data/database.db"
+	}
+	db, err := sql.Open("sqlite3", dbFile)
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	createTableQuery := `
+    CREATE TABLE IF NOT EXISTS quotation (
+        id TEXT PRIMARY KEY,
+        code TEXT,
+        codein TEXT,
+        name TEXT,
+        high REAL,
+        low REAL,
+        varBid REAL,
+        PctChange REAL,
+        Bid REAL,
+        Ask REAL,
+        CreateDate TEXT
+    );`
+
+	_, err = db.Exec(createTableQuery)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println("Database connected and table created.")
+	return db
 }
 
 func HandlerQuotation(db *sql.DB) http.HandlerFunc {
@@ -126,8 +158,9 @@ func inserProduct(db *sql.DB, quotation Quotation) error {
 
 	defer stmt.Close()
 
-	_, err = stmt.ExecContext(ctx, uuid.NewString(), quotation.USDBRL.Code, quotation.USDBRL.Codein, quotation.USDBRL.Name, quotation.USDBRL.High, quotation.USDBRL.Low, quotation.USDBRL.VarBid, quotation.USDBRL.PctChange, quotation.USDBRL.Bid, quotation.USDBRL.Ask, quotation.USDBRL.CreateDate)
-
+	res, err := stmt.ExecContext(ctx, uuid.NewString(), quotation.USDBRL.Code, quotation.USDBRL.Codein, quotation.USDBRL.Name, quotation.USDBRL.High, quotation.USDBRL.Low, quotation.USDBRL.VarBid, quotation.USDBRL.PctChange, quotation.USDBRL.Bid, quotation.USDBRL.Ask, quotation.USDBRL.CreateDate)
+	id, _ := res.LastInsertId()
+	fmt.Printf("Registered successfully! Id: %d \n", id)
 	if err != nil {
 		return err
 	}
