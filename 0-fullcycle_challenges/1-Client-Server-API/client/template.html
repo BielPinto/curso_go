@@ -33,6 +33,16 @@
     </table>
     {{else}}
     <p>Nenhum valor de Dollar disponível.</p>
+
+    <p>Geralmente as <b>3 Primeiras</b> chamadas para a APi de https://economia.awesomeapi.com.br/json/last/USD-BRL  estão <b>Excedendo </b> o timeout de <b>200ms</b>  solicitado no desafio retornando o erro<br>
+      Então favor executar a rota <b>http://localhost:8282/cotacao</b>  a cima de 4 vezes e os dados serão cadastrados com sucesso! .</p>
+
+    <p><b> Client</b><br>
+      Rota: <b>http://locahost:8282/</b>  => serve apenas para mostar os dados salvo no arquivo cotacao.txt  <br>
+      Rota: <b>http://locahost:8282/cotacao</b> =>  faz a chamada na api do serve e mostar o response na tela   <br>
+    <p>
+    <p><b>Api serve</b><br>
+      Rota: <b>http://locahost:8080/cotacao</b> =>  faz a buscar interna a uma api de terceiro e retornar a cotação ou possivel erros (timeout)  <br><p>
     {{end}}
 </body>
 

@@ -70,7 +70,7 @@ func quotationHanlder(w http.ResponseWriter, r *http.Request) {
 	}
 	err = saveQuotationToFile(quotation)
 	if err != nil {
-		fmt.Printf("Unable to insert quote data into the file error: %s \n", err)
+		fmt.Printf("Unable to insert quote data into the file error: %s \n", err.Error())
 		http.Error(w, "Unable to insert quote data into the file error", http.StatusInternalServerError)
 		return
 	}
@@ -79,7 +79,7 @@ func quotationHanlder(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Failed to marshal JSON", http.StatusInternalServerError)
 		return
 	}
-
+	fmt.Printf("Dollar received successfully: %s \n", string(jsonBytes))
 	w.Write(jsonBytes)
 	// humeHanlder(w, r)
 }
@@ -91,7 +91,8 @@ func humeHanlder(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if len(cotacaoFile) == 0 {
-		fmt.Printf("No dollar in file")
+		fmt.Printf("No dollar in file - > go to route http://localhost:8282/cotacao to get the quote \n")
+
 	}
 	t := template.Must(template.New("template.html").ParseFiles("template.html"))
 	data := TemplateData{
