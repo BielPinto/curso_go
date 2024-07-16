@@ -51,11 +51,17 @@ func main() {
 }
 
 func bdExists() (db *sql.DB) {
-	dbFile := os.Getenv("DB_FILE")
-	if dbFile == "" {
-		dbFile = "./data/database.db"
+	dirPath := "./data"
+	fileDB := "database.db"
+
+	dbPath := fmt.Sprintf("%s/%s", dirPath, fileDB)
+
+	err := createDir(dirPath)
+	if err != nil {
+		log.Fatal(err)
 	}
-	db, err := sql.Open("sqlite3", dbFile)
+
+	db, err = sql.Open("sqlite3", dbPath)
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -81,6 +87,15 @@ func bdExists() (db *sql.DB) {
 	}
 	fmt.Println("Database connected and table created.")
 	return db
+}
+
+func createDir(path string) error {
+
+	if err := os.MkdirAll(path, os.ModePerm); err != nil {
+		log.Fatalf("Error creating output directory: %v", err)
+		return err
+	}
+	return nil
 }
 
 func HandlerQuotation(db *sql.DB) http.HandlerFunc {
