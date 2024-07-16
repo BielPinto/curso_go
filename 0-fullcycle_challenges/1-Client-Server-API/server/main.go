@@ -105,13 +105,13 @@ func HandlerQuotation(db *sql.DB) http.HandlerFunc {
 		quotation, err := getQuotation(ctx, "USD-BRL")
 		if err != nil {
 			fmt.Printf("Unable to obtain Quotation err: %s \n", err)
-			http.Error(w, "Unable to obtain Quotation", http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 		err = inserProduct(db, quotation)
 		if err != nil {
 			fmt.Printf("Unable to insert quote data into the database error: %s \n", err)
-			http.Error(w, "Unable to insert quote data into the database", http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 
@@ -127,7 +127,7 @@ func HandlerQuotation(db *sql.DB) http.HandlerFunc {
 
 		if err != nil {
 			fmt.Printf("error when converting object to json error: %s \n", err)
-			http.Error(w, "Erro ao codificar a resposta JSON", http.StatusInternalServerError)
+			http.Error(w, err.Error(), http.StatusInternalServerError)
 			return
 		}
 	}
