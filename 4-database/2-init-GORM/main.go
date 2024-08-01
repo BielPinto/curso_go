@@ -13,6 +13,22 @@ type Product struct {
 
 func main() {
 	dsn := "root:root@tcp(localhost:3306)/goexpert"
-	dsn, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
+	if err != nil {
+		panic(err)
+	}
 
+	db.AutoMigrate(&Product{})
+	// db.Create(&Product{
+	// 	Name:  "Notebook",
+	// 	Price: 100.00,
+	// })
+
+	products := []Product{
+		{Name: "Notebook", Price: 100.00},
+		{Name: "Mouse", Price: 50.00},
+		{Name: "Keyboard", Price: 90.00},
+	}
+
+	db.Create(&products)
 }
