@@ -1,8 +1,6 @@
 package main
 
 import (
-	"fmt"
-
 	"gorm.io/driver/mysql"
 	"gorm.io/gorm"
 )
@@ -70,13 +68,14 @@ func main() {
 	// 	fmt.Println(product)
 	// }
 
-	var p Product
-	db.First(&p, 1)
-	p.Name = "New Mouse"
-	db.Save(&p)
+	//update and delete
+	// var p Product
+	// db.First(&p, 1)
+	// p.Name = "New Mouse"
+	// db.Save(&p)
 
-	var p2 Product
-	db.First(&p2)
-	fmt.Println(p2)
-	db.Delete(&p2)
+	// var p2 Product
+	// db.First(&p2)
+	// fmt.Println(p2)
+	// db.Delete(&p2)
 }
