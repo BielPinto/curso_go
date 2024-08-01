@@ -1,4 +1,4 @@
-module github.com/BielPinto/curso_go/4-database/2-init-GORM
+module github.com/BielPinto/curso_go/4-database/3-advanc-GORM
 
 go 1.21.6
 
