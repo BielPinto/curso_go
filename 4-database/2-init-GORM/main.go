@@ -9,10 +9,11 @@ type Product struct {
 	ID    int `gorm:"primarykey"`
 	Name  string
 	Price float64
+	gorm.Model
 }
 
 func main() {
-	dsn := "root:root@tcp(localhost:3306)/goexpert"
+	dsn := "root:root@tcp(localhost:3306)/goexpert?charset=utf8mb4&parseTime=True&loc=Local"
 	db, err := gorm.Open(mysql.Open(dsn), &gorm.Config{})
 	if err != nil {
 		panic(err)
@@ -21,8 +22,8 @@ func main() {
 	db.AutoMigrate(&Product{})
 	//create
 	// db.Create(&Product{
-	// 	Name:  "Notebook",
-	// 	Price: 100.00,
+	// 	Name:  "Mouse",
+	// 	Price: 90.00,
 	// })
 
 	//create batch
@@ -70,12 +71,14 @@ func main() {
 
 	//update and delete
 	// var p Product
-	// db.First(&p, 1)
+	// db.First(&p, 9)
+	// fmt.Println(p)
 	// p.Name = "New Mouse"
 	// db.Save(&p)
 
 	// var p2 Product
-	// db.First(&p2)
+	// db.First(&p2, 9)
 	// fmt.Println(p2)
 	// db.Delete(&p2)
+
 }
