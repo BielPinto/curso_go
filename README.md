@@ -9,3 +9,7 @@ from folders 1- follow the flow of content and small exercises.
 
 
 go mod init  github.com/BielPinto/curso_go/4-database/3-advanc-GORM # go mod init {adress} 
+
+ for API struct folder
+  https://github.com/golang-standards/project-layout
+
