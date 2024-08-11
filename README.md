@@ -13,3 +13,11 @@ go mod init  github.com/BielPinto/curso_go/4-database/3-advanc-GORM # go mod ini
  for API struct folder
   https://github.com/golang-standards/project-layout
 
+
+
+//tests
+
+# run
+go test .
+ # run verbose
+ go test -v
