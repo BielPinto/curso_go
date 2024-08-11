@@ -21,3 +21,8 @@ go mod init  github.com/BielPinto/curso_go/4-database/3-advanc-GORM # go mod ini
 go test .
  # run verbose
  go test -v
+ # run with coverage
+ go test -coverprofile=coverrage.out
+
+# find point that are not covered
+go tool cover -html=coverage.out
