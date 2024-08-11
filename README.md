@@ -26,3 +26,11 @@ go test .
 
 # find point that are not covered
 go tool cover -html=coverage.out
+
+# run benchmark  
+go help test
+go test -bench=.
+go test -bench=. -run=^#    
+go test -bench=. -run=^# -benchmem
+go test -bench=. -run=^# -count=3
+go test -bench=. -run=^# -count=3 -benchtime=3s
