@@ -34,3 +34,9 @@ go test -bench=. -run=^#
 go test -bench=. -run=^# -benchmem
 go test -bench=. -run=^# -count=3
 go test -bench=. -run=^# -count=3 -benchtime=3s
+
+# run fuzz
+go test -fuzz=. -run=^#
+go test -fuzz=. -fuzztime=5s -run=^#
+
+
