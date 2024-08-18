@@ -40,3 +40,11 @@ go test -fuzz=. -run=^#
 go test -fuzz=. -fuzztime=5s -run=^#
 
 
+# sqlite3
+  # run server and database from  module 7-api
+  Ex: go run cm/server/main 
+  # acess dataase sqlite3
+  sqlite3 test.db 
+  .help;
+  .quit
+  select * from products;
