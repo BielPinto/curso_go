@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"net/http"
 
 	"github.com/BielPinto/curso_go/7-Apis/configs"
@@ -25,7 +26,9 @@ func main() {
 		panic(err)
 	}
 	db.AutoMigrate(&entity.Product{}, &entity.User{})
-
+	productDB := database.NewProduct(db)
+	productHandler := NewProductHandler(productDB)
+	http.HandleFunc("/products", productHandler.CreateProduct)
 	http.ListenAndServe(":8000", nil)
 }
 
@@ -33,7 +36,7 @@ type ProductHandler struct {
 	ProductDB database.ProductIterface
 }
 
-func NewProuctHanfler(db database.ProductIterface) *ProductHandler {
+func NewProductHandler(db database.ProductIterface) *ProductHandler {
 	return &ProductHandler{
 		ProductDB: db,
 	}
@@ -51,7 +54,8 @@ func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 	}
-	err = h.ProductDB.Creat(p)
+	err = h.ProductDB.Create(p)
+	fmt.Printf("teste %d", p)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 	}
