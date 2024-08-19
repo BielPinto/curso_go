@@ -3,6 +3,16 @@ Content-type: application/json
 
 {
   "name":"Gabriel",
-  "email":100,
+   "email":"gabriel@hotmail.com",
+  "password": "123456"
+}
+ ###
+
+
+ POST http://localhost:8000/users/generate_token HTTP/1.1
+Content-type: application/json
+
+{
+   "email":"gabriel@hotmail.com",
   "password": "123456"
 }
