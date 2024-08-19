@@ -48,3 +48,26 @@ go test -fuzz=. -fuzztime=5s -run=^#
   .help;
   .quit
   select * from products;
+
+
+
+# Web frameoWorks Vs framworks
+ # Web frameworks
+  Typically thess web framworks wor focused on http and websockets.
+
+  - Golang Echo -  https://echo.labstack.com/
+    - works focused on  http  
+    - very good to work events minimalista
+
+  - Go Fiber -  https://gofiber.io/
+    - 
+
+  - GI - https://gin-gonic.com/
+    -
+
+#  frameworks
+ - go buffalo -  https://gobuffalo.io/pt/
+  - similar to la varal, it creates the entire ecosystem to be faster, very little used in the market, it changes the way you develop, create a folder structure
+  - it covers the entire layer of your project, backend and frontend
+ 
+ - iris -  https://github.com/kataras/iris
