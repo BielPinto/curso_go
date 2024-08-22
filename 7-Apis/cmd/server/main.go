@@ -17,23 +17,23 @@ import (
 	"gorm.io/gorm"
 )
 
-// @title		Go Expert Api Example
-// @version		1.0
-// @decription Product API with authentication
-// @termsOfService http://swagger.io/terms/
+//	@title			Go Expert Api Example
+//	@version		1.0
+//	@decription		Product API with authentication
+//	@termsOfService	http://swagger.io/terms/
 
-// @contact.name  Gabriel Pinto
-// @contact.url 	htto://www.fullcycle.com.br
-// @contact.email gabrielp.roch@hotail.com
+//	@contact.name	Gabriel Pinto
+//	@contact.url	htto://www.fullcycle.com.br
+//	@contact.email	gabrielp.roch@hotail.com
 
-// @license.name	Full Cycle License
-// @license.url		http://www.fullcycle.com.br
+//	@license.name	Full Cycle License
+//	@license.url	http://www.fullcycle.com.br
 
-// @host	localhost:8000
-// @BasePath /
-// @securityDefinitions.apikey ApiKeyAuth
-// @in header
-// @name Autorization
+//	@host						localhost:8000
+//	@BasePath					/
+//	@securityDefinitions.apikey	ApiKeyAuth
+//	@in							header
+//	@name						Autorization
 
 func main() {
 

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"time"
 
+	_ "github.com/BielPinto/curso_go/7-Apis/docs"
 	"github.com/BielPinto/curso_go/7-Apis/infra/database"
 	"github.com/BielPinto/curso_go/7-Apis/internal/dto"
 	"github.com/BielPinto/curso_go/7-Apis/internal/entity"
@@ -61,16 +62,16 @@ func (h *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
 }
 
 // Create user godoc
-// @Summary  Create user
-// @Description Create user
-// @Tags users
-// @Accept json
-// @Produce json
-// @Param request body dto.CreateUserInput true "user request"
-// @Success 201
-// @Failure 500 {object} Error
-// @Router /users [post]
-
+//
+//	@Summary		Create user
+//	@Description	Create user
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body	dto.CreateUserInput	true	"user request"
+//	@Success		201
+//	@Failure		500	{object}	Error
+//	@Router			/users [post]
 func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 	var user dto.CreateUserInput
 	err := json.NewDecoder(r.Body).Decode(&user)
@@ -81,12 +82,16 @@ func (h *UserHandler) Create(w http.ResponseWriter, r *http.Request) {
 	u, err := entity.NewUser(user.Name, user.Email, user.Password)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
+		error := Error{Message: err.Error()}
+		json.NewEncoder(w).Encode(error)
 		return
 	}
 
 	err = h.UserDB.Create(u)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
+		error := Error{Message: err.Error()}
+		json.NewEncoder(w).Encode(error)
 		return
 	}
 	w.WriteHeader(http.StatusOK)
