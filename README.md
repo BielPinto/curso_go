@@ -81,3 +81,15 @@ go test -fuzz=. -fuzztime=5s -run=^#
   - gorilla/mux - https://github.com/gorilla/mux
 
   - oa chi -  https://github.com/go-chi/chi
+
+
+
+# Documentation
+ - Doc swag : https://github.com/swaggo/swag
+ - Write in main with the documentation pattern
+ - swag init -g cmd/server/main.go
+
+# Outher
+
+- import path golang
+ export PATH=$(go env GOPATH)/bin:$PATH
