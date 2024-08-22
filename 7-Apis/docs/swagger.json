@@ -1,0 +1,27 @@
+{
+    "swagger": "2.0",
+    "info": {
+        "title": "Go Expert Api Example",
+        "termsOfService": "http://swagger.io/terms/",
+        "contact": {
+            "name": "Gabriel Pinto",
+            "url": "htto://www.fullcycle.com.br",
+            "email": "gabrielp.roch@hotail.com"
+        },
+        "license": {
+            "name": "Full Cycle License",
+            "url": "http://www.fullcycle.com.br"
+        },
+        "version": "1.0"
+    },
+    "host": "localhost:8080",
+    "basePath": "/",
+    "paths": {},
+    "securityDefinitions": {
+        "ApiKeyAuth": {
+            "type": "apiKey",
+            "name": "Autorization",
+            "in": "header"
+        }
+    }
+}
