@@ -5,12 +5,14 @@ import (
 	"net/http"
 
 	"github.com/BielPinto/curso_go/7-Apis/configs"
+	_ "github.com/BielPinto/curso_go/7-Apis/docs"
 	"github.com/BielPinto/curso_go/7-Apis/infra/database"
 	"github.com/BielPinto/curso_go/7-Apis/infra/webserver/handlers"
 	"github.com/BielPinto/curso_go/7-Apis/internal/entity"
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/go-chi/jwtauth"
+	httpSwagger "github.com/swaggo/http-swagger"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
@@ -27,7 +29,7 @@ import (
 // @license.name	Full Cycle License
 // @license.url		http://www.fullcycle.com.br
 
-// @host	localhost:8080
+// @host	localhost:8000
 // @BasePath /
 // @securityDefinitions.apikey ApiKeyAuth
 // @in header
@@ -73,6 +75,7 @@ func main() {
 	r.Post("/users", userHandler.Create)
 	r.Post("/users/generate_token", userHandler.GetJWT)
 
+	r.Get("/docs/*", httpSwagger.Handler(httpSwagger.URL("http://localhost:8000/docs/doc.json")))
 	http.ListenAndServe(":8000", r)
 }
 
