@@ -22,6 +22,18 @@ func NewProductHandler(db database.ProductIterface) *ProductHandler {
 	}
 }
 
+// Creat Product godoc
+//
+//	@Summary		Create product
+//	@Description	Create products
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body	dto.CreateProductInput	true	"product request"
+//	@Success		201
+//	@failure		500	{object}	Error
+//	@Router			/products [post]
+//	@Security		ApiKeyAuth
 func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 
 	var product dto.CreateProductInput
@@ -41,6 +53,20 @@ func (h *ProductHandler) CreateProduct(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusCreated)
 }
 
+// List Product godoc
+//
+//	@Summary		List products
+//	@Description	Get all products
+//	@Tags			products
+//	@Accept			json
+//	@Produce		json
+//	@Param			page	query		string	false	"page number"
+//	@Param			limit	query		string	false	"limit"
+//	@Success		200		{array}		entity.Product
+//	@failure		404		{object}	Error
+//	@failure		500		{object}	Error
+//	@Router			/products [get]
+//	@Security		ApiKeyAuth
 func (h *ProductHandler) GetProduct(w http.ResponseWriter, r *http.Request) {
 	id := chi.URLParam(r, "id")
 	if id == "" {

@@ -27,16 +27,17 @@ func NewUserHandler(userDB database.UserInteface) *UserHandler {
 }
 
 // GetJWT godoc
-// @Summary Get a user JWT
-// @Description Get a user JWT
-// @Tags users
-// @Accept json
-// @Produce json
-// @Param request body dto.GetJWTInput true "user credentials"
-// @Success 200 {object} dto.GetJWTOutput
-// @Failure 404 {object} Error
-// @Failure 500 {object} Error
-// @Router /users/generate_token [post]
+//
+//	@Summary		Get a user JWT
+//	@Description	Get a user JWT
+//	@Tags			users
+//	@Accept			json
+//	@Produce		json
+//	@Param			request	body		dto.GetJWTInput	true	"user credentials"
+//	@Success		200		{object}	dto.GetJWTOutput
+//	@Failure		404		{object}	Error
+//	@Failure		500		{object}	Error
+//	@Router			/users/generate_token [post]
 func (h *UserHandler) GetJWT(w http.ResponseWriter, r *http.Request) {
 	jwt := r.Context().Value("jwt").(*jwtauth.JWTAuth)
 	jwtExperiesIn := r.Context().Value("JwtExperiesIn").(int)

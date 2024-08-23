@@ -88,6 +88,8 @@ go test -fuzz=. -fuzztime=5s -run=^#
  - Doc swag : https://github.com/swaggo/swag
  - Write in main with the documentation pattern
  - swag init -g cmd/server/main.go
+ - swag fmt
+
 
 # Outher
 

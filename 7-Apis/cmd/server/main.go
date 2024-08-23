@@ -33,7 +33,7 @@ import (
 //	@BasePath					/
 //	@securityDefinitions.apikey	ApiKeyAuth
 //	@in							header
-//	@name						Autorization
+//	@name						Authorization
 
 func main() {
 
