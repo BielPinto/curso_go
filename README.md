@@ -95,3 +95,9 @@ go test -fuzz=. -fuzztime=5s -run=^#
 
 - import path golang
  export PATH=$(go env GOPATH)/bin:$PATH
+
+ # Apache Benchmark
+  - Doc : https://www.digitalocean.com/community/tutorials/how-to-use-apachebench-to-do-load-testing-on-an-ubuntu-13-10-vps
+
+
+  ab -n 1000 -c 100 http://localhost:3000/
