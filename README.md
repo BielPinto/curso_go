@@ -101,3 +101,7 @@ go test -fuzz=. -fuzztime=5s -run=^#
 
 
   ab -n 1000 -c 100 http://localhost:3000/
+
+# Race condition  GO
+ -  It is a Golang feature to check concurrency issues in the application.
+ go run -race main.go
