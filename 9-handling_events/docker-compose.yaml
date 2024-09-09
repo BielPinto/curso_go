@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3.8.16-management
+    container_name: rabbitmq
+    hostname: rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+      - "15692:15692"
+    environment: 
+      - RABBITMQ_DEFAULT_USER=quest 
+      - RABBITMQ_DEFAULT_PASS=quest 
+      - RABBITMQ_DEFAULT_VHOST=/  
+
+#  Pull of rabbitmq
+# docker-compose up -d
+#  Show services
+# docker-compose ps
+#  Test url rabbitmq
+# curl http://localhost:15672
