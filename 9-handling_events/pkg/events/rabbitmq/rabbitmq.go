@@ -1,6 +1,8 @@
 package rabbitmq
 
-import amqp "github.com/rabbitmq/amqp091-go"
+import (
+	amqp "github.com/rabbitmq/amqp091-go"
+)
 
 func OpenChannel() (*amqp.Channel, error) {
 
@@ -17,9 +19,9 @@ func OpenChannel() (*amqp.Channel, error) {
 
 }
 
-func Consume(ch *amqp.Channel, out chan<- amqp.Delivery) error {
+func Consume(ch *amqp.Channel, out chan<- amqp.Delivery, queue string) error {
 	msgs, err := ch.Consume(
-		"Myqueue",
+		queue,
 		"go-consumer",
 		false,
 		false,
@@ -33,6 +35,23 @@ func Consume(ch *amqp.Channel, out chan<- amqp.Delivery) error {
 
 	for msg := range msgs {
 		out <- msg
+	}
+	return nil
+}
+
+func Publish(ch *amqp.Channel, body string, exName string) error {
+	err := ch.Publish(
+		exName,
+		"",
+		false,
+		false,
+		amqp.Publishing{
+			ContentType: "text/plain",
+			Body:        []byte(body),
+		},
+	)
+	if err != nil {
+		return err
 	}
 	return nil
 }
