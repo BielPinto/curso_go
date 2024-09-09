@@ -1,5 +1,14 @@
 package dto
 
+type Message struct {
+	Type         string `json:"type"`
+	Cep          string `json:"cep"`
+	State        string `json:"state"`
+	City         string `json:"city"`
+	Neighborhood string `json:"neighborhood"`
+	Street       string `json:"street"`
+}
+
 type GetBrasilApi struct {
 	Cep          string `json:"cep"`
 	State        string `json:"state"`

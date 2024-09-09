@@ -9,17 +9,13 @@ server# go run cmd/server/main.go
 
 
 
-## db Sqlite3
+## How to work
 ```
-To access the sqlite3 database follow the command
-server# sqlite3 ./data/database.db
+To access the Api  d follow the command
+  send on Url
+    ?cep={CEP}
+    
+server# curl http://localhost:8080?cep=54753350
 ```
-List Records
-select * from quotation;
 
-```
-Exit sqlite3
-.exit
----
-Table structure
-PRAGMA table_info(quotation);
+

@@ -8,7 +8,8 @@ import (
 	"time"
 
 	"github.com/BielPinto/curso_go/0-fullcycle_challenges/2-Multitheading/internal/dto"
-	_ "github.com/BielPinto/curso_go/0-fullcycle_challenges/2-Multitheading/internal/dto"
+	"github.com/go-chi/chi/v5"
+	"github.com/go-chi/chi/v5/middleware"
 )
 
 /*
@@ -24,13 +25,18 @@ import (
 */
 
 func main() {
+	r := chi.NewRouter()
+	r.Use(middleware.Logger)
+	r.Route("/", func(r chi.Router) {
+		r.Get("/", SearchCEPHandler)
+
+	})
 	http.HandleFunc("/", SearchCEPHandler)
-	http.ListenAndServe(":8080", nil)
+	http.ListenAndServe(":8080", r)
 
 }
 
 func SearchCEPHandler(w http.ResponseWriter, r *http.Request) {
-	// var i int64 = 0
 	channel := make(chan dto.Message)
 
 	if r.URL.Path != "/" {
@@ -54,7 +60,7 @@ func SearchCEPHandler(w http.ResponseWriter, r *http.Request) {
 	case <-time.After(time.Second * 1):
 		w.Header().Set("Content-Type", "application/json")
 		println("Timeout")
-		w.WriteHeader(http.StatusBadRequest)
+		w.WriteHeader(http.StatusRequestTimeout)
 	}
 
 }
@@ -79,13 +85,14 @@ func SearchBrasilapi(cep string, channel chan<- dto.Message) {
 	}
 
 	msg := dto.Message{
-		Type:  "Brasilapi",
-		Cep:   cepDto.Cep,
-		State: cepDto.State,
-		City:  cepDto.City,
+		Type:         "Brasilapi",
+		Cep:          cepDto.Cep,
+		State:        cepDto.State,
+		City:         cepDto.City,
+		Neighborhood: cepDto.Neighborhood,
+		Street:       cepDto.Street,
 	}
 	channel <- msg
-	// fmt.Printf("SearchBrasilapi body : %s   msg: %s\n", body, msg)
 }
 
 // Viacep
@@ -107,11 +114,12 @@ func SearchViacep(cep string, channel chan<- dto.Message) {
 	}
 
 	msg := dto.Message{
-		Type:  "Viacep",
-		Cep:   cepDto.Cep,
-		State: cepDto.Estado,
-		City:  cepDto.UF,
+		Type:         "Viacep",
+		Cep:          cepDto.Cep,
+		State:        cepDto.Estado,
+		City:         cepDto.UF,
+		Neighborhood: cepDto.Bairro,
+		Street:       cepDto.Logradouro,
 	}
 	channel <- msg
-	// fmt.Printf("SearchViacep body : %s   msg: %s\n", body, msg)
 }
