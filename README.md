@@ -139,3 +139,8 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
     - url - https://gqlgen.com
     - It is a commn client-server "cpc" call, but sent in format that the server can understand and bring only the fields that are requested
      It is widely used as a front-end back-end
+
+    - Run dis comando pro create default struct of fother 
+     go run github.com/99designs/gqlgen init
+    -  this commander rear struct os schema and will create based than
+     go run github.com/99designs/gqlgen generate
