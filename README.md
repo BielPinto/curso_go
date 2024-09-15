@@ -105,3 +105,31 @@ go test -fuzz=. -fuzztime=5s -run=^#
 # Race condition  GO
  -  It is a Golang feature to check concurrency issues in the application.
  go run -race main.go
+
+# Go Private
+- add on golang repository private
+go env | grep PRIVATE
+export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
+
+- Add token/login  on .git
+  - on file ~/.netrc insert line down
+    `
+    machine github.com
+    login gabrielPinto
+    password {token_gerado_no_github}
+  `
+ - for bitbucket.com add line below
+   machine api.bitbucket.org
+
+  - login edite  local .git/config   or default    ~/.gitconfig
+     [url "ssh://git@github.com/"]
+        insteadOf = https://github.com/
+
+  - comand to show packeg go on cache 
+    ls ~/go/pkg/mod
+  
+  - Go proxy
+    https://proxy.golang.org
+  
+  - Go vendor
+    go mod vendor
