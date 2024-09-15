@@ -7,5 +7,5 @@ import "github.com/BielPinto/curso_go/11-graphQL/internal/database"
 // It serves as dependency injection for your app, add any dependencies you require here.
 
 type Resolver struct {
-	CategorDB *database.Category
+	CategoryDB *database.Category
 }
