@@ -76,10 +76,10 @@ autobind:
 models:
   Category:
     model:
-      - "github.com/BielPinto/curso_go/11-graphQl/graph/model.Category"
+      - github.com/BielPinto/curso_go/11-graphQl/graph/model.Category
   Course:
     model:
-      - "github.com/BielPinto/curso_go/11-graphQl/graph/model.Course"
+      - github.com/BielPinto/curso_go/11-graphQl/graph/model.Course
   ID:
     model:
       - github.com/99designs/gqlgen/graphql.ID
