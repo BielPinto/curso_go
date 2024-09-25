@@ -146,6 +146,7 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
      go run github.com/99designs/gqlgen generate
 
 # gRPC
+  - URL: https://grpc.io/ 
   - gRPC is a framework developed by Google aimed at facilitating the communication process between systems in an extremely fast, lightweight, and language-independent way.
   - It is part of the CNCF (Cloud Native Computing Foundation).
   - Good work with
@@ -160,6 +161,7 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
     - c++, Python, Ruby, Objective C, PhP, C#, Node.js,Dart, Kotlin/jvm
   - RPC - Remote Procedure Call
   - Protocol Buffers
+    - URL: https://protobuf.dev/ 
     - Protocol buffer are Google´s language-neutral, platform-neutral, extensible mechanism for serializing data - think XML, but smaller, faster, and simpler.
   - Protocol buffers VS JSON
     - Binary files < JSON
