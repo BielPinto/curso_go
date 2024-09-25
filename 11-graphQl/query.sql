@@ -41,3 +41,16 @@ query queryCourses {
     name
   }
 }
+
+query queryCoursesWithCategory {
+  courses {
+    id
+    name
+    description
+    category {
+      id
+      name
+      description
+    }
+  }
+}
