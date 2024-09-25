@@ -186,7 +186,7 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
     - Headers  are compressed
     - User fewer network resources
     - process is faster
-    
+
   - gRPC - API "unary"
     -   One Resquest/ One Response client/Server  
   - gRPC - API "Server streaming"
@@ -195,3 +195,14 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
     - Mult Resquest/ One  group Response Client/Server
   - gRPC - API "Bi directional streaming"
    - Muilt Resquest/ Muilt Response Client/Server
+
+  - Rest VS gRPC
+    - text/JSON                                         - Protocol Buffers
+    - Unidirecional                                     - Bidirectional and asynchronous
+    - High latency                                      - low latency
+    - No contract (higher chance of errors)             - Defined contract (.proto)
+    - No support for streaming  (reques response)       -  Support for streaming
+    - Predefined design                                 - Desig is free and 
+    - third party library                               - Code Generation 
+
+
