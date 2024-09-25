@@ -135,7 +135,7 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
     go mod vendor
 
 
-  - Graphql
+ # Graphql
     - url - https://gqlgen.com
     - It is a commn client-server "cpc" call, but sent in format that the server can understand and bring only the fields that are requested
      It is widely used as a front-end back-end
@@ -144,3 +144,47 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
      go run github.com/99designs/gqlgen init
     -  this commander rear struct os schema and will create based than
      go run github.com/99designs/gqlgen generate
+
+# gRPC
+  - gRPC is a framework developed by Google aimed at facilitating the communication process between systems in an extremely fast, lightweight, and language-independent way.
+  - It is part of the CNCF (Cloud Native Computing Foundation).
+  - Good work with
+   - ideal for microservices
+   - Mobile, Browsers e Backend
+   - Automatic generation of libraries
+   - Bidirectional streaming using HTTP/2
+  - Linguage supported
+   - gRPC-GO
+   - gRPC-JAVA
+   - gRPC-C
+    - c++, Python, Ruby, Objective C, PhP, C#, Node.js,Dart, Kotlin/jvm
+  - RPC - Remote Procedure Call
+  - Protocol Buffers
+    - Protocol buffer are Google´s language-neutral, platform-neutral, extensible mechanism for serializing data - think XML, but smaller, faster, and simpler.
+  - Protocol buffers VS JSON
+    - Binary files < JSON
+    - Serialization process is lighter (cpu) than JSON
+    - User less network resources
+    - Process is faster.
+
+    - contract
+        `
+        syntax = "proto2"
+
+        message SearchRequest {
+          string query = 1;
+          int32 page_number = 2;
+          int32 result_per_page = 3;
+        }
+    `
+  - HTTP/2
+    - Orinal name create by Google was SPDY
+    - Launched in 2015
+    - Data transferred is binary and not text as in HTTP 1.1
+    - Uses the same TcPconnection to send and recive data from the client and serve(Multiplex)  
+    - Server Push (asserts for exemplo)
+    - Headers  are compressed
+    - User fewer network resources
+    - process is faster
+
+
