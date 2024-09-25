@@ -216,3 +216,8 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
     $ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
     $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
 
+    $ export PATH="$PATH:$(go env GOPATH)/bin"
+    
+  - commmand to create entiday Go of  course_category.proto
+    $ protoc --go_out=. --go-grpc_out=. proto/course_category.proto 
+
