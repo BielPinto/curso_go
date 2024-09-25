@@ -208,3 +208,11 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
     - third party library                               - Code Generation 
 
 
+  - intall two librs
+
+    $ apt install -y protobuf-compiler
+    $ protoc --version 
+
+    $ go install google.golang.org/protobuf/cmd/protoc-gen-go@latest
+    $ go install google.golang.org/grpc/cmd/protoc-gen-go-grpc@latest
+
