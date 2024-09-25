@@ -186,5 +186,12 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
     - Headers  are compressed
     - User fewer network resources
     - process is faster
-
-
+    
+  - gRPC - API "unary"
+    -   One Resquest/ One Response client/Server  
+  - gRPC - API "Server streaming"
+    -  One Resques/ Mult Response Client/Server
+  - gRPC - API "Cliente Streaming"
+    - Mult Resquest/ One  group Response Client/Server
+  - gRPC - API "Bi directional streaming"
+   - Muilt Resquest/ Muilt Response Client/Server
