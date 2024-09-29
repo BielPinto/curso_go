@@ -224,16 +224,18 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
   
   
   - Evans grpc Client
-   - url: https://github.com/ktr0731/evans
-   - Evan has been created to use easier than other existing gPRC clients.
-   - afeter install evan, checked if env go instal on  ~/.bashrc 
-     - add on file "export PATH=$PATH:$HOME/go/bin"
-   - run comand evans -r repl
-   - access service 
+    - url: https://github.com/ktr0731/evans
+    - Evan has been created to use easier than other existing gPRC clients.
+    - afeter install evan, checked if env go instal on  ~/.bashrc 
+      - add on file "export PATH=$PATH:$HOME/go/bin"
+    - run comand evans -r repl
+    - access service 
      $ package pb
      $ service CategoryService
-   - Ereate registre  
+    - Create registre  
      $ call CreateCategory
+
+    - used on stream to exit  ctrl + d 
 
   - Create table sqlite3
    - create table categories (id string, name string, description string);
