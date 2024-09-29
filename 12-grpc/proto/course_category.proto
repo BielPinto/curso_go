@@ -1,7 +1,7 @@
 syntax = "proto3";
 package pb;
 option go_package = "internal/pb";
-
+message blank {}
 message Category {
   string id = 1;
   string name = 2;
@@ -13,11 +13,12 @@ message CreateCategoryResquest {
   string description= 2;
 }
 
-message CategoryResponse {
-  Category category = 1;
+message CategoryList {
+  repeated Category categories = 1;
 }
 
 
 service CategoryService {
  rpc CreateCategory(CreateCategoryResquest) returns (Category){}
+ rpc ListCategories(blank) returns(CategoryList){}
 }
