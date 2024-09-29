@@ -1,4 +1,5 @@
 # curso_go 
+ - file off configuration on  wsl  ~/.bashrc 
 # Course: Pos-Go Expert - 2024
 
 This project contains the entire history of Pos-GO’s activities and challenges.
@@ -220,4 +221,20 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
     
   - commmand to create entiday Go of  course_category.proto
     $ protoc --go_out=. --go-grpc_out=. proto/course_category.proto 
+  
+  
+  - Evans grpc Client
+   - url: https://github.com/ktr0731/evans
+   - Evan has been created to use easier than other existing gPRC clients.
+   - afeter install evan, checked if env go instal on  ~/.bashrc 
+     - add on file "export PATH=$PATH:$HOME/go/bin"
+   - run comand evans -r repl
+   - access service 
+     $ package pb
+     $ service CategoryService
+   - Ereate registre  
+     $ call CreateCategory
+
+  - Create table sqlite3
+   - create table categories (id string, name string, description string);
 
