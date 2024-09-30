@@ -16,5 +16,8 @@ func main() {
 		f.WriteString("Hello, World")
 		i++
 		defer f.Close()
+		if i > 3 {
+			break
+		}
 	}
 }

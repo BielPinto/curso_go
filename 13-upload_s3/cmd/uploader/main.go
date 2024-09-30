@@ -9,7 +9,6 @@ import (
 	"github.com/aws/aws-sdk-go/aws/credentials"
 	"github.com/aws/aws-sdk-go/aws/session"
 	"github.com/aws/aws-sdk-go/service/s3"
-	"google.golang.org/genproto/googleapis/iam/credentials/v1"
 )
 
 var (
@@ -22,8 +21,8 @@ func init() {
 		&aws.Config{
 			Region: aws.String("us-east-1"),
 			Credentials: credentials.NewStaticCredentials(
-				"credencial",
-				"password",
+				"****",
+				"***",
 				""),
 		},
 	)
@@ -32,7 +31,7 @@ func init() {
 	}
 
 	s3Client = s3.New(sess)
-	s3Bucket = "goexpert-bucket-exemplo"
+	s3Bucket = "***"
 }
 
 func main() {
@@ -59,7 +58,7 @@ func main() {
 
 func uploadFile(filename string) {
 	completeFileName := fmt.Sprintf("./tmp/%s", filename)
-	fmt.Printf("Uploading file %s to bucket %s", completeFileName, s3Bucket)
+	fmt.Printf("Uploading file %s to bucket %s filename %s\n", completeFileName, s3Bucket, filename)
 	f, err := os.Open(completeFileName)
 	if err != nil {
 		fmt.Printf("Error opening file %s\n", completeFileName)
@@ -73,7 +72,7 @@ func uploadFile(filename string) {
 	})
 
 	if err != nil {
-		fmt.Printf("Error uploading file %s\n", completeFileName)
+		fmt.Printf("Error uploading file %s   err %s\n", completeFileName, err)
 		return
 	}
 	fmt.Printf("File %s uploaded successfully\n", completeFileName)
