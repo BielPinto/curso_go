@@ -240,3 +240,6 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
   - Create table sqlite3
    - create table categories (id string, name string, description string);
 
+
+
+# UploadS3
