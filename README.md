@@ -244,3 +244,13 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
 
 # UploadS3
  - 
+
+
+# Cobra_cli
+  - Cobra provides its own program that will creat your  application and add any commands you want. it´s the easiest war to incorporate cobra into your application.
+  - url : https://github.com/spf13/cobra-cli  
+
+  - Init project Cobra
+  $ cobra-cli init
+  - add New commands
+  $ cobra-cli add "name_commander"
