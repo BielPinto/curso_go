@@ -256,4 +256,6 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
 
   -  add New commands.
   $ cobra-cli add "name_commander"
-  
+
+  - test command and flags
+  $ go run main.go test -c=pong  or  go run main.go test -command=pong  
