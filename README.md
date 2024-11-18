@@ -267,3 +267,7 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
   - run 
   $ go run main.go category 
   $ go run main.go category list
+
+# SQLC
+  - Migrate reads migrations from sources and applies them in correct order to a database. 
+  - url: https://github.com/golang-migrate/migrate
