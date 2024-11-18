@@ -269,5 +269,23 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
   $ go run main.go category list
 
 # SQLC
-  - Migrate reads migrations from sources and applies them in correct order to a database. 
-  - url: https://github.com/golang-migrate/migrate
+  - Migration
+    - Migrate reads migrations from sources and applies them in correct order to a database. 
+    - url: https://github.com/golang-migrate/migrate
+
+    - Install  migrate 
+    - $ go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@latest
+    - $ export PATH=$PATH:$HOME/go/bin
+    - $ echo 'export PATH=$PATH:$HOME/go/bin' >> ~/.bashrc
+    - $ source ~/.bashrc
+    
+    - Init migrate
+    -$  migrate create -ext=sql -dir=sql/migrations -seq init
+
+    - Cretaging Db with docker-composer 
+    - Run docker-compose
+    - $ docker-composer up -d 
+
+    - Run  migrate with db
+    - $ migrate -path=sql/migrations -database "mysql://root:root@tcp(localhost:3306)/courses" --verbose up
+m
