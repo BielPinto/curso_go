@@ -259,3 +259,11 @@ export GOPRIVATE=github.com/devfullcycle/fcutils-secret,other_repositori_private
 
   - test command and flags
   $ go run main.go test -c=pong  or  go run main.go test -command=pong  
+
+  - Create child chained 
+  $ cobra-cli add create -p 'categoryCmd'
+  $ cobra-cli add list -p 'categoryCmd'
+
+  - run 
+  $ go run main.go category 
+  $ go run main.go category list
