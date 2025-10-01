@@ -1,4 +1,4 @@
-# curso_go 
+# curso_go  referenc https://github.com/devfullcycle/goexpert
  - file off configuration on  wsl  ~/.bashrc 
 # Course: Pos-Go Expert - 2024
 
