@@ -1,0 +1,5 @@
+Tempo total gasto na execução: 1.10784308s
+Quantidade total de requests realizados: 20
+Quantidade de requests com status HTTP 200: 0
+Distribuição de outros códigos de status HTTP:
+  400: 20

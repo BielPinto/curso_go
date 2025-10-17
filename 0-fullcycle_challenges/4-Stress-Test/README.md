@@ -10,6 +10,8 @@ A CLI tool written in Go for performing HTTP stress tests on web services. It al
   - Total execution time
   - Number of successful requests (HTTP 200)
   - Distribution of other HTTP status codes
+- Performance profiling with pprof (CPU and memory profiles)
+- Report saved to file (report.txt)
 - Docker containerization for easy deployment
 
 ## Prerequisites
@@ -62,6 +64,13 @@ docker run --rm stress-test --url=http://example.com --requests=1000 --concurren
 ### Example Output
 
 ```
+Relatório salvo em report.txt
+Perfis salvos: cpu.prof e mem.prof
+```
+
+The report is saved to `report.txt` with the following content:
+
+```
 Tempo total gasto na execução: 5.234567891s
 Quantidade total de requests realizados: 1000
 Quantidade de requests com status HTTP 200: 950
@@ -72,12 +81,37 @@ Distribuição de outros códigos de status HTTP:
 
 ## Report Details
 
-The tool generates a report containing:
+The tool generates a report saved to `report.txt` containing:
 
 - **Total execution time**: Time taken to complete all requests
 - **Total requests made**: Number of requests actually sent
 - **Successful requests (200)**: Number of requests that returned HTTP 200
 - **Status code distribution**: Breakdown of other HTTP status codes encountered
+
+## Performance Profiling
+
+The tool includes built-in performance profiling using Go's pprof package:
+
+- **CPU Profile**: Captures CPU usage during the stress test and saves it to `cpu.prof`
+- **Memory Profile**: Captures memory allocation and saves it to `mem.prof`
+
+### Analyzing Profiles
+
+To analyze the generated profiles, use the `go tool pprof` command:
+
+```bash
+# Analyze CPU profile
+go tool pprof -text cpu.prof
+
+# Analyze memory profile
+go tool pprof -text mem.prof
+
+# Interactive analysis (web interface)
+go tool pprof -web cpu.prof
+go tool pprof -web mem.prof
+```
+
+The profiles help identify performance bottlenecks, memory leaks, and optimization opportunities in the stress test execution.
 
 ## Notes
 
