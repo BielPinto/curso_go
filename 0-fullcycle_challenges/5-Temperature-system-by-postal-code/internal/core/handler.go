@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"os"
 	"regexp"
@@ -25,7 +26,7 @@ func SearchCEPHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	address, err := searchViaCep(cep)
 	if err == ErrCepNotFound {
-		fmt.Println("can not find zipcode", http.StatusNotFound)
+		fmt.Println("can not find zipcode", err)
 		http.Error(w, "can not find zipcode", http.StatusNotFound)
 		return
 	}
@@ -60,6 +61,8 @@ func isValidCEP(cep string) bool {
 
 func SearchViaCep(cep string) (dto.GetViacepApi, error) {
 	resp, err := http.Get("https://viacep.com.br/ws/" + cep + "/json/")
+	fmt.Println("viacep   -> cep: ", cep)
+	fmt.Println("resp from viacep: ", resp)
 	if err != nil {
 		return dto.GetViacepApi{}, err
 	}
@@ -70,18 +73,17 @@ func SearchViaCep(cep string) (dto.GetViacepApi, error) {
 		return dto.GetViacepApi{}, err
 	}
 
-	if err != nil {
-		return dto.GetViacepApi{}, ErrCepNotFound
-	}
-
 	return data, nil
 }
 
 func GetTemperature(city string) (float64, error) {
 
 	apiKey := os.Getenv("WEATHER_API_KEY")
-
-	fmt.Println("apiKey ", apiKey)
+	fmt.Println("WEATHER_API_KEY: ", apiKey)
+	if apiKey == "" {
+		fmt.Println("WEATHER_API_KEY not set")
+		return 0, fmt.Errorf("WEATHER_API_KEY not set")
+	}
 	url := fmt.Sprintf(
 		"https://api.weatherapi.com/v1/current.json?key=%s&q=%s",
 		apiKey,
@@ -93,6 +95,11 @@ func GetTemperature(city string) (float64, error) {
 		return 0, err
 	}
 	defer resp.Body.Close()
+
+	if resp.StatusCode != http.StatusOK {
+		body, _ := io.ReadAll(resp.Body)
+		return 0, fmt.Errorf("weather api error: %s", body)
+	}
 
 	var result struct {
 		Current struct {
