@@ -1,0 +1,10 @@
+**/.git
+**/node_modules
+**/.cache
+**/.idea
+**/.vscode
+**/tmp
+.DS_Store
+README.md
+.env
+*.log
