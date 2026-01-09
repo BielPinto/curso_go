@@ -18,7 +18,21 @@ Este projeto é um sistema em Go que recebe um CEP, identifica a cidade correspo
 * Fahrenheit: `F = C * 1,8 + 32`
 * Kelvin: `K = C + 273`
 
-## 🚀 Como Executar
+
+## ☁️ Deploy no Google Cloud Run
+
+A aplicação está configurada para deploy no Google Cloud Run.
+
+**Endereço Ativo:**
+> `https://weather-fullcyclev2-117536311839.us-central1.run.app`
+
+Para testar em produção:
+```bash
+curl "https://weather-fullcyclev2-117536311839.us-central1.run.app/?cep=01153000"
+```
+
+
+## 🚀 Como Executar Local
 
 ### Pré-requisitos
 * Go instalado.
@@ -33,7 +47,7 @@ Este projeto é um sistema em Go que recebe um CEP, identifica a cidade correspo
 WEATHER_API_KEY=sua_chave_aqui
 ```
 
-### 🐳 Executando com Docker (Recomendado)
+### 🐳 Executando com Docker (Recomendado) Local
 
 Para subir a aplicação e garantir que todas as dependências estejam corretas, utilize o Docker Compose:
 
@@ -53,22 +67,10 @@ curl "http://localhost:8080?cep=01153000"
 go run cmd/server/main.go
 ```
 
-## 🧪 Testes Automatizados
+## 🧪 Testes Automatizados Local
 
 Os testes automatizados demonstram o funcionamento do sistema e podem ser executados isoladamente via Docker:
 
 ```bash
 docker compose run --rm test
-```
-
-## ☁️ Deploy no Google Cloud Run
-
-A aplicação está configurada para deploy no Google Cloud Run.
-
-**Endereço Ativo:**
-> `https://weather-fullcyclev2-117536311839.us-central1.run.app`
-
-Para testar em produção:
-```bash
-curl "https://weather-fullcyclev2-117536311839.us-central1.run.app/?cep=01153000"
 ```
