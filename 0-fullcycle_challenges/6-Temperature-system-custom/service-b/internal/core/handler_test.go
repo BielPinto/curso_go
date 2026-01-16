@@ -1,6 +1,7 @@
 package core
 
 import (
+	"context"
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
@@ -19,10 +20,10 @@ func TestSearchCEPHandler_Success(t *testing.T) {
 		getTemperature = oldGetTemp
 	}()
 
-	searchViaCep = func(cep string) (dto.GetViacepApi, error) {
+	searchViaCep = func(ctx context.Context, cep string) (dto.GetViacepApi, error) {
 		return dto.GetViacepApi{Localidade: "Camaragibe"}, nil
 	}
-	getTemperature = func(city string) (float64, error) {
+	getTemperature = func(ctx context.Context, city string) (float64, error) {
 		return 28.5, nil
 	}
 
@@ -78,7 +79,7 @@ func TestSearchCEPHandler_CEPNotFound(t *testing.T) {
 	oldSearch := searchViaCep
 	defer func() { searchViaCep = oldSearch }()
 
-	searchViaCep = func(cep string) (dto.GetViacepApi, error) {
+	searchViaCep = func(ctx context.Context, cep string) (dto.GetViacepApi, error) {
 		return dto.GetViacepApi{}, ErrCepNotFound
 	}
 

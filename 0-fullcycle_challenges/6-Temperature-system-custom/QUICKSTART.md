@@ -34,7 +34,20 @@ curl -X POST http://localhost:8081/ \
 # {"city":"São Paulo","temp_C":25.5,"temp_F":77.9,"temp_K":298.65}
 ```
 
-## 4. Parar os serviços
+## 4. Visualizar Traces (OpenTelemetry + Zipkin)
+
+Em outro terminal ou navegador:
+
+```bash
+# Acesse Zipkin
+open http://localhost:9411
+```
+
+1. Selecione o serviço (service-a ou service-b)
+2. Clique em "Find Traces"
+3. Veja o fluxo completo das requisições com timings de cada componente
+
+## 5. Parar os serviços
 
 ```bash
 docker-compose down
@@ -61,3 +74,14 @@ docker-compose down
 - CEP deve ser uma **STRING**
 - Caso inválido: HTTP 422 com mensagem `{"message": "invalid zipcode"}`
 - CEP não encontrado: HTTP 404 com mensagem `{"message": "can not find zipcode"}`
+
+## Serviços Disponíveis
+
+| Serviço | URL | Porta |
+|---------|-----|-------|
+| Service A (API) | http://localhost:8081 | 8081 |
+| Service B (Temperature) | http://localhost:8080 | 8080 |
+| Zipkin (Tracing) | http://localhost:9411 | 9411 |
+| OTEL Collector | grpc://localhost:4317 | 4317 |
+
+Para documentação completa de OpenTelemetry + Zipkin, veja [OTEL_ZIPKIN.md](../OTEL_ZIPKIN.md)

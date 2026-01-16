@@ -1,6 +1,6 @@
 # Temperature System - Fase 1
 
-Este projeto implementa um sistema de consulta de temperatura por CEP usando dois serviços Go em containers Docker.
+Este projeto implementa um sistema de consulta de temperatura por CEP usando dois serviços Go em containers Docker com **tracing distribuído via OpenTelemetry e Zipkin**.
 
 ## Arquitetura
 
@@ -14,12 +14,23 @@ Este projeto implementa um sistema de consulta de temperatura por CEP usando doi
   - CEP não encontrado (HTTP 404): `{ "message": "can not find zipcode" }`
 - **Validação**: CEP deve ter exatamente 8 dígitos e ser uma STRING
 - **Health Check**: `GET /health`
+- **Tracing**: Instrumentado com OpenTelemetry
 
 ### Serviço B (Service B)
 - **Porta**: 8080
 - **Função**: Consulta localidade via CEP (ViaCEP API) e retorna temperatura (OpenWeatherMap API)
 - **Endpoint**: `GET /?cep={cep}`
 - **Resposta**: `{ "city": "São Paulo", "temp_C": 25.5, "temp_F": 77.9, "temp_K": 298.65 }`
+- **Tracing**: Instrumentado com OpenTelemetry, mede tempo de ViaCEP e Weather API
+
+### OTEL Collector
+- **Porta**: 4317 (gRPC), 4318 (HTTP)
+- **Função**: Coleta e processa traces dos serviços
+
+### Zipkin
+- **Porta**: 9411
+- **Função**: Visualiza e analisa traces distribuídos
+- **URL**: `http://localhost:9411`
 
 ## Pré-requisitos
 
@@ -124,11 +135,46 @@ curl "http://localhost:8081/health"
     ├── internal/
     │   ├── core/
     │   ├── dto/
-    │   └── storage/
+    │   ├── storage/
+    │   └── telemetry/     # OTEL configuration
     ├── Dockerfile
     ├── docker-compose.yml
     └── go.mod
 ```
+
+## Observabilidade - OpenTelemetry + Zipkin
+
+Este projeto inclui implementação completa de **tracing distribuído**:
+
+### Acessar Zipkin
+```bash
+# Após iniciar com docker-compose, acesse:
+open http://localhost:9411
+```
+
+### Visualizar Traces
+1. No Zipkin, selecione o serviço (service-a ou service-b)
+2. Clique em "Find Traces"
+3. Veja o fluxo completo das requisições com timings
+
+### Spans Capturados
+
+**Service A:**
+- `POST /` - Requisição principal
+  - `call_service_b` - Chamada HTTP ao Service B
+
+**Service B:**
+- `GET /` - Requisição principal
+  - `search_viacep` - Busca de CEP
+  - `get_temperature` - Busca de temperatura
+
+**Métricas Capturadas:**
+- Tempo total de processamento
+- Tempo de cada serviço externo (ViaCEP, Weather API)
+- Status das operações
+- Informações como CEP, cidade e temperatura
+
+Para mais detalhes, veja [OTEL_ZIPKIN.md](./OTEL_ZIPKIN.md)
 
 ## Parar os serviços
 
@@ -136,11 +182,3 @@ curl "http://localhost:8081/health"
 docker-compose down
 ```
 
-## Melhorias futuras
-
-- Adicionar cache de resultados
-- Implementar rate limiting
-- Adicionar autenticação e autorização
-- Melhorar tratamento de erros
-- Adicionar testes unitários
-- Implementar logging estruturado
