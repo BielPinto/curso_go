@@ -18,7 +18,7 @@ Este projeto implementa um sistema de consulta de temperatura por CEP usando doi
 
 ### Serviço B (Service B)
 - **Porta**: 8080
-- **Função**: Consulta localidade via CEP (ViaCEP API) e retorna temperatura (OpenWeatherMap API)
+- **Função**: Consulta localidade via CEP (ViaCEP API) e retorna temperatura (WeatherAPI API)
 - **Endpoint**: `GET /?cep={cep}`
 - **Resposta**: `{ "city": "São Paulo", "temp_C": 25.5, "temp_F": 77.9, "temp_K": 298.65 }`
 - **Tracing**: Instrumentado com OpenTelemetry, mede tempo de ViaCEP e Weather API
@@ -36,8 +36,8 @@ Este projeto implementa um sistema de consulta de temperatura por CEP usando doi
 
 - Docker
 - Docker Compose
-- Uma chave de API da OpenWeatherMap
-
+- Uma chave de API da WeatherAPI
+   - https://www.weatherapi.com/docs/
 ## Setup
 
 1. Clone o arquivo `.env.example` para `.env`:
@@ -45,7 +45,7 @@ Este projeto implementa um sistema de consulta de temperatura por CEP usando doi
 cp .env.example .env
 ```
 
-2. Adicione sua chave de API da OpenWeatherMap no arquivo `.env`:
+2. Adicione sua chave de API da WeatherAPI no arquivo `.env`:
 ```
 WEATHER_API_KEY=sua_chave_aqui
 ```
